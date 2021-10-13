@@ -19,6 +19,6 @@ public class MySpringMVCDispatcherServletInitializer extends AbstractAnnotationC
     @Override
     protected String[] getServletMappings() {
 //        указываем корень dispatcherServlet
-        return new String[] {"/"};
+        return new String[] {""};
     }
 }
