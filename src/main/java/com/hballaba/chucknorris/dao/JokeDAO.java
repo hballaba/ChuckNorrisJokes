@@ -14,7 +14,7 @@ import java.util.List;
 public class JokeDAO {
 
     private JdbcTemplate jdbcTemplate;
-
+    private Logger logger = LogManager.getLogger(JokeDAO.class);
 
     @Autowired
     public JokeDAO(JdbcTemplate jdbcTemplate) {
@@ -22,14 +22,11 @@ public class JokeDAO {
     }
 
     public List<Joke> index() {
-        Logger logger = LogManager.getLogger(JokeDAO.class);
-        String query = "SELECT * FROM jokes";
+          String query = "SELECT * FROM jokes";
 
         logger.info(query);
-
         List<Joke> jokes = jdbcTemplate.query(query, new JokeMapper());
-        for(Joke joke : jokes)
-            System.out.println("here " + joke);
+        logger.info(jokes);
         return jokes;
     }
 

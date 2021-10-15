@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Joke of Chuck Norris</title>
 </head>
 <body>
-<p>hahah</p>
+    <div th:each="joke : ${jokes}">
+        <a th:href="@{/}"
+        th:text="${joke.getId() + '. ' + joke.getJoke()}">user</a>
+<!--        <br/>-->
+    </div>
+    <br/>
+    <hr/>
+
+    <a th:href="@{/jokes/new}">Get new joke</a>
 </body>
 </html>
