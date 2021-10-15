@@ -3,6 +3,7 @@ package com.hballaba.chucknorris.controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.hballaba.chucknorris.dao.JokeDAO;
 import com.hballaba.chucknorris.utils.JsonParse;
+import com.hballaba.chucknorris.utils.MyConnectionHttp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,48 +47,44 @@ public class ChuckController {
     @GetMapping("/new")
     public String GetNewJoke(Model model){
         String urlAddress = "https://api.chucknorris.io/jokes/random";
-        URL url = null;
-        HttpURLConnection connection = null;
+        String method = "Get";
+
+        HttpURLConnection connection = MyConnectionHttp.HttpURLConnection(urlAddress, method);
+        if (connection == null) {
+            return "chuck/index";
+        }
         InputStreamReader inputStreamReader = null;
         BufferedReader bufferedReader = null;
+
         try {
-            url = new URL(urlAddress);
-            connection = (HttpURLConnection) url.openConnection();
-            System.out.println("connection "  + connection);
-            connection.setRequestMethod("GET");
-            connection.setConnectTimeout(2000);
-            connection.setReadTimeout(2000);
             connection.connect();
 
-            if(HttpURLConnection.HTTP_OK == connection.getResponseCode()) {
+            if( HttpURLConnection.HTTP_OK == connection.getResponseCode()) {
                 inputStreamReader = new InputStreamReader(connection.getInputStream());
                 bufferedReader = new BufferedReader(inputStreamReader);
                 String response = bufferedReader.readLine();
                 JsonNode json = JsonParse.GetJson(response);
                 String value = json.get("value").asText() ;
-                System.out.println(value);
+                logger.info("New joke: " + value);
             }
             else {
                 logger.info("URL: " + urlAddress + "connect error");
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        finally {
-            try {
+        try {
+            if (inputStreamReader != null)
                 inputStreamReader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                bufferedReader.close();
+                if (bufferedReader != null)
+                    bufferedReader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-
         return "chuck/newJoke";
     }
 }
