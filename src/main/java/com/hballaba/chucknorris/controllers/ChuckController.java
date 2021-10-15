@@ -1,6 +1,8 @@
 package com.hballaba.chucknorris.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.hballaba.chucknorris.dao.JokeDAO;
+import com.hballaba.chucknorris.utils.JsonParse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import java.util.HashMap;
 @Controller
 @RequestMapping("/jokes")
 public class ChuckController {
+
+
 
 
     private JokeDAO jokeDAO;
@@ -59,7 +63,9 @@ public class ChuckController {
                 inputStreamReader = new InputStreamReader(connection.getInputStream());
                 bufferedReader = new BufferedReader(inputStreamReader);
                 String response = bufferedReader.readLine();
-                System.out.println(response);
+                JsonNode json = JsonParse.GetJson(response);
+                String value = json.get("value").asText() ;
+                System.out.println(value);
             }
             else {
                 logger.info("URL: " + urlAddress + "connect error");
