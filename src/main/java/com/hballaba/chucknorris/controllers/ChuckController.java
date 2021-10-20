@@ -10,17 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.HashMap;
 
 @Controller
 @RequestMapping("/jokes")
@@ -47,7 +43,7 @@ public class ChuckController {
     @GetMapping("/new")
     public String GetNewJoke(Model model){
         String urlAddress = "https://api.chucknorris.io/jokes/random";
-        String method = "Get";
+        String method = "GET";
 
         HttpURLConnection connection = MyConnectionHttp.HttpURLConnection(urlAddress, method);
         if (connection == null) {
@@ -65,6 +61,7 @@ public class ChuckController {
                 String response = bufferedReader.readLine();
                 JsonNode json = JsonParse.GetJson(response);
                 String value = json.get("value").asText() ;
+                model.addAttribute("joke", value);
                 logger.info("New joke: " + value);
             }
             else {
@@ -87,4 +84,10 @@ public class ChuckController {
             }
         return "chuck/newJoke";
     }
+
+    @GetMapping("/{id}")
+    public String Show(@PathVariable("id") int id, Model model){
+            model.addAttribute("joke", jokeDAO.show(id));
+            return "chuck/show";
+        }
 }

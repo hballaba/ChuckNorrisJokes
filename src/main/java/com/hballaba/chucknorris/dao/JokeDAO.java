@@ -30,4 +30,15 @@ public class JokeDAO {
         return jokes;
     }
 
+    public void save(Joke joke) {
+        String query = "INSERT INTO jokes (joke, user_id VALUES ('test', 2)";
+        jdbcTemplate.update(query, new JokeMapper());
+    }
+
+    public Joke show(int id) {
+        String query = "SELECT * FROM jokes WHERE id=?";
+        return (Joke) jdbcTemplate.query(query, new Object[]{id}, new JokeMapper())
+                .stream().findAny().orElse(null);
+    }
+
 }
