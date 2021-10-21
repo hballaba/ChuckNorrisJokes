@@ -2,6 +2,7 @@ package com.hballaba.chucknorris.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.hballaba.chucknorris.dao.JokeDAO;
+import com.hballaba.chucknorris.models.Joke;
 import com.hballaba.chucknorris.utils.JsonParse;
 import com.hballaba.chucknorris.utils.MyConnectionHttp;
 import org.apache.logging.log4j.LogManager;
@@ -9,9 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,11 +60,11 @@ public class ChuckController {
                 String response = bufferedReader.readLine();
                 JsonNode json = JsonParse.GetJson(response);
                 String value = json.get("value").asText() ;
-                model.addAttribute("joke", value);
-                logger.info("New joke: " + value);
+                model.addAttribute("joke", new Joke(value, 2));
+                logger.info("Method getNewJoke: New joke: " + value);
             }
             else {
-                logger.info("URL: " + urlAddress + "connect error");
+                logger.info("Method getNewJoke: URL: " + urlAddress + "connect error");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,5 +88,12 @@ public class ChuckController {
     public String Show(@PathVariable("id") int id, Model model){
             model.addAttribute("joke", jokeDAO.show(id));
             return "chuck/show";
-        }
+    }
+
+    @PostMapping()
+    public String create(@ModelAttribute("joke") Joke joke) {
+        logger.info("Method create: " +  joke);
+        jokeDAO.save(joke);
+        return "redirect:/jokes";
+    }
 }

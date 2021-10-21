@@ -6,12 +6,19 @@
 </head>
 <body>
     <div>
-        <p th:text="${joke}"></p>
+        <p th:text="${joke.getJoke()}"></p>
     </div>
     <a th:href="@{/jokes/new}">Next joke</a>
     <br/>
     <hr/>
-    <input type="submit" value="SAVE!"/>
+    <form th:method="POST" th:action="@{/jokes}" th:object="${joke}">
+        <!--    указывается метод каким будет отправдятся и куда-->
+<!--        <lable for="joke">Change Joke: </lable>-->
+        <input type="text" th:field="*{joke}" id="joke">
+<!--        <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>-->
+
+        <input type="submit" value="Save">
+    </form>
 
 </body>
 </html>

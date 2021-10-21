@@ -31,12 +31,15 @@ public class JokeDAO {
     }
 
     public void save(Joke joke) {
-        String query = "INSERT INTO jokes (joke, user_id VALUES ('test', 2)";
-        jdbcTemplate.update(query, new JokeMapper());
+        String query = "INSERT INTO jokes (joke, user_id) VALUES (?, ?)";
+        logger.info("Method save: " + query + " " + joke);
+
+        jdbcTemplate.update(query, joke.getJoke(), 2);
     }
 
     public Joke show(int id) {
         String query = "SELECT * FROM jokes WHERE id=?";
+        logger.info(query);
         return (Joke) jdbcTemplate.query(query, new Object[]{id}, new JokeMapper())
                 .stream().findAny().orElse(null);
     }
