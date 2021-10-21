@@ -12,8 +12,7 @@ public class JokeMapper implements RowMapper {
         Joke joke = new Joke();
         joke.setId(resultSet.getInt("id"));
         joke.setJoke(resultSet.getString("joke"));
-        joke.setUserID(resultSet.getInt("user_id"));
-//        System.out.println("test");
+        joke.setUser_id(resultSet.getInt("user_id"));
         return joke;
     }
 }
