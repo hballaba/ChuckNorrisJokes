@@ -13,7 +13,7 @@ public class MySpringMVCDispatcherServletInitializer extends AbstractAnnotationC
     @Override
     protected Class<?>[] getServletConfigClasses() {
 //        указываем класс конфигурации
-        return new Class[] {SpringConfig.class};
+        return new Class[] {SpringConfig.class, SecurityConfig.class};
     }
 
     @Override
