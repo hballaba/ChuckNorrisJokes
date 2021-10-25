@@ -2,16 +2,39 @@ package com.hballaba.chucknorris.models;
 
 import lombok.Data;
 
+import javax.persistence.*;
+import java.util.Collection;
+
+@Entity
 @Data
+@Table(name = "users")
 public class User {
-    private String login;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String username;
+
     private String password;
 
-    public User() {
-    }
+    private String email;
 
-    public User(String login, String password) {
-        this.login = login;
-        this.password = password;
-    }
+    @ManyToMany
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
+
 }
+
+/*
+CREATE TABLE users (
+    id          bigserial,
+    username    varchar(30),
+    password    varchar(80) not null,
+    email       varchar(50) unique,
+    primary key (id)
+    );
+
+ */
