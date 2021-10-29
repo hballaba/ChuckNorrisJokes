@@ -1,11 +1,12 @@
 package com.hballaba.chucknorris.models;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 
 import javax.persistence.*;
 
-@Entity
+@Component
 @Data
 @Table(name = "users")
 public class Role {

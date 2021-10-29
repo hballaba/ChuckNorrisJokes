@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.security.Principal;
 import java.util.List;
 
 @Component
@@ -21,11 +22,12 @@ public class JokeDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Joke> index() {
-          String query = "SELECT * FROM jokes";
+    public List<Joke> index(Principal principal) {
+        logger.info("User: " + principal.getName());
+          String query = "SELECT * FROM jokes WHERE username=?";
 
         logger.info(query);
-        List<Joke> jokes = jdbcTemplate.query(query, new JokeMapper());
+        List<Joke> jokes = jdbcTemplate.query(query, new Object[]{principal.getName()}, new JokeMapper());
         logger.info(jokes);
         return jokes;
     }
