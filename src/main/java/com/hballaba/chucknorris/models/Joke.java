@@ -6,11 +6,11 @@ import lombok.Data;
 public class Joke {
     private int id;
     private String joke;
-    private int user_id;
+    private String username;
 
     public Joke(String joke, int userID) {
         this.joke = joke;
-        this.user_id = user_id;
+        this.username = username;
     }
 
     public Joke() {

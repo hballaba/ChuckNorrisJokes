@@ -1,0 +1,39 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <title>Registration</title>
+</head>
+<div>
+    <form th:method="POST" th:action="@{/registration}" th:object="${userForm}">
+        <h2>Registration</h2>
+        <lable for="username">Enter username: </lable>
+        <input type="text" th:field="*{username}" id="username" placeholder="Username">
+        <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</div>
+        <br>
+        <lable for="password">Enter Password: </lable>
+        <input type="text" th:field="*{password}" id="password" placeholder="Password">
+        <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+
+        <p style="color:red" th:text="${usernameError}">
+            Error
+        </p>
+        <!--        <div>-->
+<!--            <input type="text" path="username" placeholder="Username"-->
+<!--                        autofocus="true"></input>-->
+<!--            <errors path="username"></errors>-->
+<!--            ${usernameError}-->
+<!--        </div>-->
+<!--        <div>-->
+<!--            <input type="password" path="password" placeholder="Password"></input>-->
+<!--        </div>-->
+
+        <button type="submit">Login</button>
+    </form>
+    <br/>
+    <a href="/">Home</a>
+</div>
+</body>
+</html>

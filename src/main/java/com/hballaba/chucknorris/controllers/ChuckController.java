@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/jokes")
@@ -34,8 +35,9 @@ public class ChuckController {
     }
 
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("jokes", jokeDAO.index());
+    public String index(Model model, Principal principal) {
+        System.out.println(principal.getName());
+        model.addAttribute("jokes", jokeDAO.index(principal));
         return "chuck/index";
     }
 
@@ -91,9 +93,9 @@ public class ChuckController {
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("joke") Joke joke) {
+    public String create(@ModelAttribute("joke") Joke joke, Principal principal) {
         logger.info("Method create: " +  joke);
-        jokeDAO.save(joke);
+        jokeDAO.save(joke, principal);
         return "redirect:/jokes";
     }
 }

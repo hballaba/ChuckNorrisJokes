@@ -56,7 +56,7 @@ public class TestMainPage {
 
         driver.findElement(By.id("buttonForJokes")).click();
 
-        String expected = "http://localhost:8080/jokes";
+        String expected = "http://localhost:8080/login";
         String actual = driver.getCurrentUrl();
         logger.info("Test URL. Expected: " + expected + ". Actual: " + actual);
         assertEquals(expected, actual);

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.security.Principal;
 import java.util.List;
 
 @Component
@@ -21,20 +22,21 @@ public class JokeDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Joke> index() {
-          String query = "SELECT * FROM jokes";
+    public List<Joke> index(Principal principal) {
+        logger.info("User: " + principal.getName());
+          String query = "SELECT * FROM jokes WHERE username=?";
 
         logger.info(query);
-        List<Joke> jokes = jdbcTemplate.query(query, new JokeMapper());
+        List<Joke> jokes = jdbcTemplate.query(query, new Object[]{principal.getName()}, new JokeMapper());
         logger.info(jokes);
         return jokes;
     }
 
-    public void save(Joke joke) {
-        String query = "INSERT INTO jokes (joke, user_id) VALUES (?, ?)";
-        logger.info("Method save: " + query + " " + joke);
+    public void save(Joke joke, Principal principal) {
+        String query = "INSERT INTO jokes (joke, username) VALUES (?, ?)";
+        logger.info("Method save: " + query + " " + joke + " Username: " + principal.getName());
 
-        jdbcTemplate.update(query, joke.getJoke(), 2);
+        jdbcTemplate.update(query, joke.getJoke(), principal.getName());
     }
 
     public Joke show(int id) {
@@ -43,5 +45,6 @@ public class JokeDAO {
         return (Joke) jdbcTemplate.query(query, new Object[]{id}, new JokeMapper())
                 .stream().findAny().orElse(null);
     }
+
 
 }
