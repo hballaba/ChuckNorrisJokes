@@ -36,7 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("Hereeeee");
         http.authorizeRequests()
                 .antMatchers("/jokes/**")
                 .authenticated()
@@ -108,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
+*/
 //   Для преобразования пароля через крипту
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -116,7 +115,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
+/*
 //    @Autowired
 //    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 //        auth

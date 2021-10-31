@@ -32,11 +32,11 @@ public class JokeDAO {
         return jokes;
     }
 
-    public void save(Joke joke) {
-        String query = "INSERT INTO jokes (joke, user_id) VALUES (?, ?)";
-        logger.info("Method save: " + query + " " + joke);
+    public void save(Joke joke, Principal principal) {
+        String query = "INSERT INTO jokes (joke, username) VALUES (?, ?)";
+        logger.info("Method save: " + query + " " + joke + " Username: " + principal.getName());
 
-        jdbcTemplate.update(query, joke.getJoke(), 2);
+        jdbcTemplate.update(query, joke.getJoke(), principal.getName());
     }
 
     public Joke show(int id) {

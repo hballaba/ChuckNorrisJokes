@@ -93,9 +93,9 @@ public class ChuckController {
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("joke") Joke joke) {
+    public String create(@ModelAttribute("joke") Joke joke, Principal principal) {
         logger.info("Method create: " +  joke);
-        jokeDAO.save(joke);
+        jokeDAO.save(joke, principal);
         return "redirect:/jokes";
     }
 }

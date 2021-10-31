@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
-@Component
+//@Component
 @Data
 @Table(name = "users")
 public class Role {
@@ -19,6 +19,10 @@ public class Role {
     @Column(name = "name")
     private String name;
 
+    public Role(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
 
 
