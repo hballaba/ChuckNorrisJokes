@@ -11,3 +11,4 @@ In this project i use:
     Lombok 1.18.20 
     Junit 4.11 
     Selenium 3.141.59 
+    Spring Security
