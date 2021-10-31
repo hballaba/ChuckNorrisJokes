@@ -17,6 +17,9 @@
         <input type="text" th:field="*{password}" id="password" placeholder="Password">
         <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
 
+        <p style="color:red" th:text="${usernameError}">
+            Error
+        </p>
         <!--        <div>-->
 <!--            <input type="text" path="username" placeholder="Username"-->
 <!--                        autofocus="true"></input>-->

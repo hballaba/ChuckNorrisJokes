@@ -43,8 +43,12 @@ public class UserController {
             return "user/login";
         }
         logger.info("UserForm: " + userForm);
-        userDAO.save(userForm);
+        if(userDAO.save(userForm)) {
+            System.out.println("already exist");
+            model.addAttribute("usernameError", "The user with username " + userForm.getUsername() + " already exists");
+            return  "user/login";
+        }
 
-        return "user/login";
+        return "redirect:/";
     }
 }
